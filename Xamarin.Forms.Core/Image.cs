@@ -94,16 +94,37 @@ namespace Xamarin.Forms
 			ImageElementManager.ImageSourceChanged(bindable, newSource);
 		}
 
+		void OnSourcePropertyChanging(ImageSource oldvalue, ImageSource newvalue)
 		static void OnImageSourceChanging(BindableObject bindable, object oldValue, object newValue)
 		{
-			ImageSource oldSource = (ImageSource)oldValue;
-			Image image = (Image)bindable;
+			if (oldvalue == null)
+				return;
+			
+			oldvalue.SourceChanged -= OnSourceChanged;
 
-			if (oldSource != null)
+			// This method generates are particularly unhappy async/await state-machine combined
+			// with the CoW mechanisms of the try/catch that actually makes it worth avoiding
+			// if oldValue is null (which it often is). Early return does not prevent the
+			// state-machine mechanisms being kicked in, only moving to another method will do that.
+			CancelOldValue(oldvalue);
+		}
+
+		async void CancelOldValue(ImageSource oldvalue)
+		{
+			try
 			{
-				oldSource.SourceChanged -= image.OnImageSourcesSourceChanged;
+				await oldvalue.Cancel();
 			}
-			ImageElementManager.ImageSourceChanging(oldSource);
+			catch (ObjectDisposedException)
+			{
+				// Workaround bugzilla 37792 https://bugzilla.xamarin.com/show_bug.cgi?id=37792
+			}
+		}
+
+		[EditorBrowsable(EditorBrowsableState.Never)]
+		public void SetIsLoading(bool isLoading)
+		{
+			SetValue(IsLoadingPropertyKey, isLoading);
 		}
 
 		void IImageController.RaiseImageSourcePropertyChanged() => OnPropertyChanged(nameof(Source));

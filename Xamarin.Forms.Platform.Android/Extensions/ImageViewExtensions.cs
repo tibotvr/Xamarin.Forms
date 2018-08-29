@@ -78,7 +78,15 @@ namespace Xamarin.Forms.Platform.Android
 			}
 
 			bitmap?.Dispose();
-			newView?.SetIsLoading(false);
+			imageController?.SetIsLoading(false);
+			((IVisualElementController)newImage)?.NativeSizeChanged();
+
+		}
+
+		public static async Task UpdateBitmap(this AImageView imageView, Image newImage, Image previousImage = null)
+		{
+			await UpdateBitmap(imageView, newImage, newImage?.Source, previousImage, previousImage?.Source).ConfigureAwait(false);
+
 		}
 	}
 }
