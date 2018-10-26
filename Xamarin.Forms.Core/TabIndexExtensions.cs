@@ -1,8 +1,7 @@
 using System.Collections.Generic;
-using Xamarin.Forms.Internals;
 using System.Linq;
 
-namespace Xamarin.Forms
+namespace Xamarin.Forms.Internals
 {
 	public static class TabIndexExtensions
 	{

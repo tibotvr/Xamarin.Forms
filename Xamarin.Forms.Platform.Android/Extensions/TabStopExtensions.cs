@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using AView = Android.Views.View;
+using Xamarin.Forms.Internals;
 
 namespace Xamarin.Forms.Platform.Android
 {

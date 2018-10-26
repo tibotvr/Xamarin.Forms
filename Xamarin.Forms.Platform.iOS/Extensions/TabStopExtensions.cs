@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Xamarin.Forms.Internals;
 
 #if __MOBILE__
 using NativeView = UIKit.UIView;
