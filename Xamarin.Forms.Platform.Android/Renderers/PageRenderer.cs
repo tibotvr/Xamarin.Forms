@@ -5,6 +5,7 @@ using Android.Content;
 using Android.OS;
 using Android.Support.V7.Widget;
 using Android.Views;
+using Android.Views.Accessibility;
 using AView = Android.Views.View;
 
 namespace Xamarin.Forms.Platform.Android
@@ -123,9 +124,15 @@ namespace Xamarin.Forms.Platform.Android
 		}
 
 		void IOrderedTraversalController.UpdateTraversalOrder()
-		{
+		{   
 			// traversal order wasn't added until API 22
 			if ((int)Build.VERSION.SdkInt < 22)
+				return;
+
+			// since getting and updating the traversal order is expensive, let's only do it when a screen reader is active
+			// note that this does NOT get auto updated when you enable TalkBack, so the page will need to be reloaded to enable this path 
+			var am = AccessibilityManager.FromContext(Context);
+			if (!am.IsEnabled)
 				return;
 
 			var children = Element.Descendants();
