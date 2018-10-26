@@ -1,5 +1,6 @@
 using NUnit.Framework;
 using System.Linq;
+using Xamarin.Forms.Internals;
 
 namespace Xamarin.Forms.Core.UnitTests
 {

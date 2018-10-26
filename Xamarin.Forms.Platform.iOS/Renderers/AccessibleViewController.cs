@@ -1,6 +1,7 @@
 using Foundation;
 using System.Collections.Generic;
 using UIKit;
+using Xamarin.Forms.Internals;
 
 namespace Xamarin.Forms.Platform.iOS
 {

@@ -158,13 +158,19 @@ namespace Xamarin.Forms.Platform.MacOS
 
 		protected void UpdateTabStop()
 		{
-			TabStop = Element?.IsTabStop;
+			if (Element == null)
+				return;
+
+			TabStop = Element.IsTabStop;
 			UpdateParentPageAccessibilityElements();
 		}
 
 		protected void UpdateTabIndex()
 		{
-			TabIndex = Element?.TabIndex;
+			if (Element == null)
+				return;
+
+			TabIndex = Element.TabIndex;
 			UpdateParentPageAccessibilityElements();
 		}
 
