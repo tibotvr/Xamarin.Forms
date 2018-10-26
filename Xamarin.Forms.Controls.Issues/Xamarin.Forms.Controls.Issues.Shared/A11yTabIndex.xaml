@@ -17,7 +17,7 @@
 		</Grid.RowDefinitions>
 
 		<BoxView Color="Blue"></BoxView>
-		<Label Text="This text should be read when the page loads."  TextColor="White" />
+		<Label Text="This text should be read when the page loads." TabIndex="-2" TextColor="White" />
 
 		<Grid Grid.Row="1">
 			<Grid.ColumnDefinitions>
@@ -27,16 +27,15 @@
 				<ColumnDefinition></ColumnDefinition>
 			</Grid.ColumnDefinitions>
 
-			<Button Text="-1 (-1)"  TabIndex="-1"  TextColor="White"></Button>
+			<Button Text="-1 (-1)"  TabIndex="-1"  TextColor="Gray"></Button>
 			<Label Text="0 2" AutomationProperties.IsInAccessibleTree="False" TextColor="Red" Grid.Column="1"></Label>
-			<Button Text="0 3" TextColor="White" Grid.Column="2"></Button>
-			<Button Text="0 4" TextColor="White" Grid.Column="3"></Button>
-			<Button Text="1 5" TabIndex="1"   Grid.Column="4" TextColor="White"></Button>
+			<Button Text="0 3" TextColor="Gray" Grid.Column="2"></Button>
+			<Button Text="0 4" TextColor="Gray" Grid.Column="3"></Button>
+			<Button Text="1 5" TabIndex="1" Grid.Column="4" TextColor="Gray"></Button>
 
 		</Grid>
 
-		<!-- TODO: Should IsTabStop false == IsInAccessibleTree false? -->
-		<Button Text="Skip 3 6"  TabIndex="3" IsTabStop="False"  Grid.Row="2"></Button>
+		<Button Text="Skip 3 6" TabIndex="3" Grid.Row="2"></Button>
 
 		<Frame BackgroundColor="Cornsilk" Margin="20" CornerRadius="2" BorderColor="Gray" Grid.Row="3">
 			<StackLayout>
