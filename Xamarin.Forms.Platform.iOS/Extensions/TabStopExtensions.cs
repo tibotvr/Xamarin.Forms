@@ -51,9 +51,12 @@ namespace Xamarin.Forms.Platform.MacOS
 
 				var renderer = Platform.GetRenderer(element);
 				control = (renderer as ITabStop)?.TabStop;
-
+#if __MOBILE__
 			} while (!(control?.CanBecomeFocused == true || ++attempt >= maxAttempts));
-
+#else
+				element.Focus();
+			} while (!(control != null || element.IsFocused || ++attempt >= maxAttempts));
+#endif
 			return new Tuple<VisualElement, NativeView>(element, control);
 		}
 	}
