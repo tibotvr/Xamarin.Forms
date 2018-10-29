@@ -7,6 +7,32 @@ namespace Xamarin.Forms.Core.UnitTests
 	[TestFixture]
 	public class TabIndexTests : BaseTestFixture
 	{
+		[Test]
+		public void FindNextElement_Forward_Without_Tabindexes()
+		{
+			var stackLayout = new StackLayout();
+
+			var labels = new Label[5];
+			for (int i = 0; i < labels.Length; i++)
+			{
+				labels[i] = new Label();
+				stackLayout.Children.Add(labels[i]);
+			}
+
+			var page = new ContentPage { Content = stackLayout };
+
+			var tabIndexes = stackLayout.GetTabIndexesOnParentPage(out int __);
+
+			for (int i = 0; i < labels.Length; i++)
+			{
+				int _ = labels[i].TabIndex;
+				var found = labels[i].FindNextElement(true, tabIndexes, ref _);
+				if (labels.Length != i + 1)
+					Assert.AreEqual(labels[i + 1], found);
+				else
+					Assert.AreEqual(stackLayout, found);
+			}
+		}
 
 		[Test]
 		public void GetTabIndexesOnParentPage_ImplicitZero()
