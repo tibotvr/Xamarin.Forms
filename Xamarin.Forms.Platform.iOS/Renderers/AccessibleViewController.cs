@@ -26,17 +26,16 @@ namespace Xamarin.Forms.Platform.iOS
 			List<NSObject> views = new List<NSObject>();
 			foreach (var child in children)
 			{
-				if (child is VisualElement ve)
+				if (!(child is VisualElement ve && Platform.GetRenderer(ve).NativeView is ITabStop tabStop))
 				{
-					if (Platform.GetRenderer(ve).NativeView is ITabStop tabStop)
-					{
-						if (tabIndexes == null)
-						{
-							tabIndexes = ve.GetTabIndexesOnParentPage(out childrenWithTabStopsLessOne);
-							firstTabStop = TabStopExtensions.GetFirstTabStopVisualElement(tabIndexes);
-							break;
-						}
-					}
+					continue;
+				}
+
+				if (tabIndexes == null)
+				{
+					tabIndexes = ve.GetTabIndexesOnParentPage(out childrenWithTabStopsLessOne);
+					firstTabStop = TabStopExtensions.GetFirstTabStopVisualElement(tabIndexes);
+					break;
 				}
 			}
 

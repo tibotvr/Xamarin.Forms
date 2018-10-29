@@ -125,7 +125,7 @@ namespace Xamarin.Forms.Platform.Android
 		}
 
 		void IOrderedTraversalController.UpdateTraversalOrder()
-		{   
+		{
 			// traversal order wasn't added until API 22
 			if ((int)Build.VERSION.SdkInt < 22)
 				return;
@@ -142,33 +142,30 @@ namespace Xamarin.Forms.Platform.Android
 			AView firstTabStop = null;
 			foreach (var child in children)
 			{
-				if (child is VisualElement ve)
+				if (!(child is VisualElement ve && ve.GetRenderer().View is ITabStop tabStop))
+					continue;
+
+				var thisControl = tabStop.TabStop;
+
+				if (tabIndexes == null)
 				{
-					if (ve.GetRenderer().View is ITabStop tabStop)
-					{
-						var thisControl = tabStop.TabStop;
+					tabIndexes = ve.GetTabIndexesOnParentPage(out childrenWithTabStopsLessOne);
+					firstTabStop = TabStopExtensions.GetFirstTabStop(tabIndexes, childrenWithTabStopsLessOne);
+				}
 
-						if (tabIndexes == null)
-						{
-							tabIndexes = ve.GetTabIndexesOnParentPage(out childrenWithTabStopsLessOne);
-							firstTabStop = TabStopExtensions.GetFirstTabStop(tabIndexes, childrenWithTabStopsLessOne);
-						}
+				// this element should be the first thing focused after the root
+				if (thisControl == firstTabStop)
+				{
+					thisControl.AccessibilityTraversalAfter = NoId;
+				}
+				else if (ve.IsTabStop)
+				{
+					AView control = ve.GetNextTabStop(forwardDirection: true,
+														tabIndexes: tabIndexes,
+														maxAttempts: childrenWithTabStopsLessOne);
 
-						// this element should be the first thing focused after the root
-						if (thisControl == firstTabStop)
-						{
-							thisControl.AccessibilityTraversalAfter = NoId;
-						}
-						else if (ve.IsTabStop)
-						{
-							AView control = ve.GetNextTabStop(forwardDirection: true,
-																tabIndexes: tabIndexes,
-																maxAttempts: childrenWithTabStopsLessOne);
-
-							if (control != null && control != firstTabStop)
-								control.AccessibilityTraversalAfter = thisControl.Id;
-						}
-					}
+					if (control != null && control != firstTabStop)
+						control.AccessibilityTraversalAfter = thisControl.Id;
 				}
 			}
 		}

@@ -152,15 +152,17 @@ namespace Xamarin.Forms.Platform.Android
 
 		public override AView FocusSearch(AView focused, [GeneratedEnum] FocusSearchDirection direction)
 		{
-			VisualElement element = Element as VisualElement;
+			if (!(Element is VisualElement visualElement))
+				return null;
+
 			bool forwardDirection = !(
 				(direction & FocusSearchDirection.Backward) != 0 ||
 				(direction & FocusSearchDirection.Left) != 0 ||
 				(direction & FocusSearchDirection.Up) != 0);
 
-			var tabIndexes = element.GetTabIndexesOnParentPage(out int childrenWithTabStopsLessOne);
+			var tabIndexes = visualElement.GetTabIndexesOnParentPage(out int childrenWithTabStopsLessOne);
 
-			var control = element.GetNextTabStop(forwardDirection, tabIndexes, childrenWithTabStopsLessOne);
+			var control = visualElement.GetNextTabStop(forwardDirection, tabIndexes, childrenWithTabStopsLessOne);
 
 			return control;
 		}
