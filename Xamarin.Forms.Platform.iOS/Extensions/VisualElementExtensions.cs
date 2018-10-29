@@ -10,9 +10,7 @@ namespace Xamarin.Forms.Platform.iOS
 			if (self == null)
 				throw new ArgumentNullException(nameof(self));
 
-			IVisualElementRenderer renderer = Platform.GetRenderer(self);
-
-			return renderer;
+			return Platform.GetRenderer(self);
 		}
 		internal static bool UseLegacyColorManagement<T>(this T element) where T : VisualElement, IElementConfiguration<T>
 		{
