@@ -39,7 +39,7 @@ namespace Xamarin.Forms.Platform.iOS
 				}
 			}
 
-			if (firstTabStop == null)
+			if (firstTabStop == null || tabIndexes == null)
 				return null;
 
 			VisualElement nextVisualElement = firstTabStop;
