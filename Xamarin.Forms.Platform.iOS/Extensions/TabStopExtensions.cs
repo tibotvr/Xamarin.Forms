@@ -21,7 +21,7 @@ namespace Xamarin.Forms.Platform.MacOS
 
 		public static VisualElement GetNextTabStopVisualElement(this VisualElement ve, bool forwardDirection, IDictionary<int, List<VisualElement>> tabIndexes, int maxAttempts)
 		{
-			return FindNextTabStop(ve, forwardDirection, tabIndexes, maxAttempts).Item1;
+			return FindNextTabStop(ve, forwardDirection, tabIndexes, maxAttempts)?.Item1;
 		}
 
 		public static VisualElement GetFirstTabStopVisualElement(IDictionary<int, List<VisualElement>> tabIndexes)
