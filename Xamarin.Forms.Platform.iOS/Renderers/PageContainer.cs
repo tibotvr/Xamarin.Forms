@@ -33,7 +33,7 @@ namespace Xamarin.Forms.Platform.iOS
 					{
 						NSObject defaultElements = AccessibilityContainer.GetAccessibilityElements();
 						if (defaultElements != null)
-							_accessibilityElements = NSArray.ArrayFromHandle<NSObject>(AccessibilityContainer.GetAccessibilityElements().Handle).ToList();
+							_accessibilityElements = NSArray.ArrayFromHandle<NSObject>(defaultElements.Handle).ToList();
 					}
 				}
 
