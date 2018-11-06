@@ -15,6 +15,7 @@ using Xamarin.Forms.Platform.Android.FastRenderers;
 using AColor = Android.Graphics.Color;
 using AView = Android.Views.View;
 using LP = Android.Views.ViewGroup.LayoutParams;
+using AImageButton = Android.Widget.ImageButton;
 
 namespace Xamarin.Forms.Platform.Android
 {
@@ -85,9 +86,9 @@ namespace Xamarin.Forms.Platform.Android
 
 		private IShellContext _shellContext;
 		private CardView _cardView;
-		private ImageButton _clearButton;
-		private ImageButton _clearPlaceholderButton;
-		private ImageButton _searchButton;
+		private AImageButton _clearButton;
+		private AImageButton _clearPlaceholderButton;
+		private AImageButton _searchButton;
 		private AppCompatAutoCompleteTextView _textBlock;
 		bool _disposed;
 
@@ -295,9 +296,9 @@ namespace Xamarin.Forms.Platform.Android
 		{
 		}
 
-		private ImageButton CreateImageButton(Context context, ImageSource image, int defaultImage, int leftMargin, int rightMargin)
+		private AImageButton CreateImageButton(Context context, ImageSource image, int defaultImage, int leftMargin, int rightMargin)
 		{
-			var result = new ImageButton(context);
+			var result = new AImageButton(context);
 			result.SetPadding(0, 0, 0, 0);
 			result.Focusable = false;
 
@@ -329,7 +330,7 @@ namespace Xamarin.Forms.Platform.Android
 			Controller.ItemSelected(item);
 		}
 
-		private async void SetImage(ImageButton button, ImageSource image, int defaultValue)
+		private async void SetImage(AImageButton button, ImageSource image, int defaultValue)
 		{
 			button.SetScaleType(ImageView.ScaleType.FitCenter);
 			if (image != null)

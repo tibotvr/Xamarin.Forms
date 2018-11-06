@@ -116,7 +116,6 @@
     <Compile Include="BackgroundManager.cs" />
     <Compile Include="AppCompat\ILifeCycleState.cs" />
     <Compile Include="AppCompat\ShellFragmentContainer.cs" />
-    <Compile Include="ButtonBackgroundTracker.cs" />
     <Compile Include="BorderBackgroundManager.cs" />
     <Compile Include="Elevation.cs" />
     <Compile Include="Extensions\EntryRendererExtensions.cs" />
@@ -191,7 +190,6 @@
     <Compile Include="PowerSaveModeBroadcastReceiver.cs" />
     <Compile Include="Renderers\AHorizontalScrollView.cs" />
     <Compile Include="Renderers\BottomNavigationViewUtils.cs" />
-    <Compile Include="Renderers\ButtonDrawable.cs" />
     <Compile Include="Renderers\AlignmentExtensions.cs" />
     <Compile Include="Renderers\ColorChangeRevealDrawable.cs" />
     <Compile Include="Renderers\BorderDrawable.cs" />

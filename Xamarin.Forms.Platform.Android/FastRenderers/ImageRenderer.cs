@@ -183,52 +183,5 @@ namespace Xamarin.Forms.Platform.Android.FastRenderers
 		{
 			ElementPropertyChanged?.Invoke(this, e);
 		}
-
-		async Task TryUpdateBitmap(Image previous = null)
-		{
-			// By default we'll just catch and log any exceptions thrown by UpdateBitmap so they don't bring down
-			// the application; a custom renderer can override this method and handle exceptions from
-			// UpdateBitmap differently if it wants to
-
-			try
-			{
-				await UpdateBitmap(previous);
-			}
-			catch (Exception ex)
-			{
-				Log.Warning(nameof(ImageRenderer), "Error loading image: {0}", ex);
-			}
-			finally
-			{
-				((IImageController)_element)?.SetIsLoading(false);
-			}
-		}
-
-		async Task UpdateBitmap(Image previous = null)
-		{
-			if (_element == null || _disposed)
-			{
-				return;
-			}
-
-			await Control.UpdateBitmap(_element, previous).ConfigureAwait(false);
-		}
-
-		protected override void OnLayout(bool changed, int left, int top, int right, int bottom)
-		{
-			base.OnLayout(changed, left, top, right, bottom);
-			ClipBounds = GetScaleType() == ScaleType.CenterCrop ? new Rect(0, 0, right - left, bottom - top) : null;
-		}
-
-		void UpdateAspect()
-		{
-			if (_element == null || _disposed)
-			{
-				return;
-			}
-
-			ScaleType type = _element.Aspect.ToScaleType();
-			SetScaleType(type);
-		}
 	}
 }
