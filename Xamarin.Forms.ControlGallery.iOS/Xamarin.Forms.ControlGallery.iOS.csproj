@@ -211,6 +211,10 @@
     <BundleResource Include="Resources\bell%402x.png" />
     <BundleResource Include="Resources\bell.png" />
     <BundleResource Include="Resources\mic.png" />
+    <BundleResource Include="Resources\FlowerBuds.jpg" />
+    <BundleResource Include="Resources\Fruits.jpg" />
+    <BundleResource Include="Resources\Legumes.jpg" />
+    <BundleResource Include="Resources\Vegetables.jpg" />
     <Content Include="settings%402x.png" />
     <Content Include="menuIcon%402x.png" />
     <Content Include="crimsonsmall.jpg" />

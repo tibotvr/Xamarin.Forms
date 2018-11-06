@@ -159,6 +159,10 @@ namespace Xamarin.Forms.ControlGallery.iOS
 			App.IOSVersion = int.Parse(versionPart[0]);
 
 			Xamarin.Calabash.Start();
+			
+			// Allow Control Gallery to use CollectionView/CarouselView
+			Forms.SetFlags("CollectionView_Experimental");
+
 			Forms.Init();
 			FormsMaps.Init();
 			Forms.ViewInitialized += (object sender, ViewInitializedEventArgs e) =>
