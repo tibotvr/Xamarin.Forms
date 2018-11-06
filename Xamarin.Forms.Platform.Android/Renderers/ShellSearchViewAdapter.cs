@@ -98,7 +98,7 @@ namespace Xamarin.Forms.Platform.Android
 				var template = _searchHandler.ItemTemplate ?? DefaultTemplate;
 				var view = (View)template.CreateContent(item, _shellContext.Shell);
 				view.BindingContext = item;
-				view.Platform = _shellContext.Shell.Platform;
+				//view.Platform = _shellContext.Shell.Platform;
 
 				result = new ContainerView(parent.Context, view);
 				result.MatchWidth = true;

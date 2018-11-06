@@ -45,7 +45,7 @@ namespace Xamarin.Forms.Platform.Android.FastRenderers
 
 		internal static void SetBasicContentDescription(
 			AView control,
-			VisualElement element,
+			BindableObject element,
 			ref string defaultContentDescription)
 		{
 			if (element == null || control == null)
@@ -59,8 +59,8 @@ namespace Xamarin.Forms.Platform.Android.FastRenderers
 		}
 
 		internal static void SetContentDescription(
-			AView control, 
-			VisualElement element, 
+			AView control,
+			BindableObject element, 
 			ref string defaultContentDescription,
 			ref string defaultHint)
 		{
