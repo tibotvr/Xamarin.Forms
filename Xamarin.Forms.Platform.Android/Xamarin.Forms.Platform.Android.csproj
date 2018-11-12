@@ -158,7 +158,6 @@
     <Compile Include="PowerSaveModeBroadcastReceiver.cs" />
     <Compile Include="Renderers\AHorizontalScrollView.cs" />
     <Compile Include="Renderers\BottomNavigationViewUtils.cs" />
-    <Compile Include="Renderers\AlignmentExtensions.cs" />
     <Compile Include="Renderers\ColorChangeRevealDrawable.cs" />
     <Compile Include="Renderers\BorderDrawable.cs" />
     <Compile Include="Renderers\ButtonRenderer.cs" />
