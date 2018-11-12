@@ -5,7 +5,6 @@ using Android.OS;
 using Android.Views.InputMethods;
 using Android.Widget;
 using AView = Android.Views.View;
-using Debug = System.Diagnostics.Debug;
 
 namespace Xamarin.Forms.Platform.Android
 {
