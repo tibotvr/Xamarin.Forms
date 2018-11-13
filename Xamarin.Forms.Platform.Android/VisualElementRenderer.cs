@@ -7,6 +7,7 @@ using Xamarin.Forms.Internals;
 using AView = Android.Views.View;
 using Xamarin.Forms.Platform.Android.FastRenderers;
 using Android.Runtime;
+using Android.Support.V4.View;
 
 namespace Xamarin.Forms.Platform.Android
 {
@@ -181,8 +182,7 @@ namespace Xamarin.Forms.Platform.Android
 			TElement oldElement = Element;
 			Element = element;
 
-			var reference = Guid.NewGuid().ToString();
-			Performance.Start(reference);
+			Performance.Start(out string reference);
 
 			if (oldElement != null)
 			{
@@ -416,6 +416,6 @@ namespace Xamarin.Forms.Platform.Android
 		}
 
 		void IVisualElementRenderer.SetLabelFor(int? id)
-			=> LabelFor = id ?? LabelFor;
+			=> ViewCompat.SetLabelFor(this, id ?? ViewCompat.GetLabelFor(this));
 	}
 }

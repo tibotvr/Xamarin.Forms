@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Xamarin.Forms.Controls.GalleryPages;
+using Xamarin.Forms.Controls.GalleryPages.CollectionViewGalleries;
 using Xamarin.Forms.CustomAttributes;
 using Xamarin.Forms.Internals;
 using Xamarin.Forms.PlatformConfiguration;
@@ -271,6 +272,8 @@ namespace Xamarin.Forms.Controls
 
 		List<GalleryPageFactory> _pages = new List<GalleryPageFactory> {
 				new GalleryPageFactory(() => new Issues.A11yTabIndex(), "Accessibility TabIndex"),
+				new GalleryPageFactory(() => new CollectionViewGallery(), "CollectionView Gallery"),
+				new GalleryPageFactory(() => new CollectionViewCoreGalleryPage(), "CollectionView Core Gallery"),
 				new GalleryPageFactory(() => new Issues.PerformanceGallery(), "Performance"),
 				new GalleryPageFactory(() => new EntryReturnTypeGalleryPage(), "Entry ReturnType "),
 				new GalleryPageFactory(() => new VisualStateManagerGallery(), "VisualStateManager Gallery"),
@@ -288,6 +291,7 @@ namespace Xamarin.Forms.Controls
 				new GalleryPageFactory(() => new PanGestureGalleryPage(), "Pan gesture Gallery"),
 				new GalleryPageFactory(() => new SwipeGestureGalleryPage(), "Swipe gesture Gallery"),
 				new GalleryPageFactory(() => new PinchGestureTestPage(), "Pinch gesture Gallery"),
+				new GalleryPageFactory(() => new ClickGestureGalleryPage(), "Click gesture Gallery"),
 				new GalleryPageFactory(() => new AutomationIdGallery(), "AutomationID Gallery"),
 				new GalleryPageFactory(() => new LayoutPerformanceGallery(), "Layout Perf Gallery"),
 				new GalleryPageFactory(() => new ListViewSelectionColor(), "ListView SelectionColor Gallery"),
@@ -304,6 +308,7 @@ namespace Xamarin.Forms.Controls
 				new GalleryPageFactory(() => new EditorCoreGalleryPage(), "Editor Gallery"),
 				new GalleryPageFactory(() => new FrameCoreGalleryPage(), "Frame Gallery"),
 				new GalleryPageFactory(() => new ImageCoreGalleryPage(), "Image Gallery"),
+				new GalleryPageFactory(() => new ImageButtonCoreGalleryPage(), "Image Button Gallery"),
 				new GalleryPageFactory(() => new KeyboardCoreGallery(), "Keyboard Gallery"),
 				new GalleryPageFactory(() => new LabelCoreGalleryPage(), "Label Gallery"),
 				new GalleryPageFactory(() => new ListViewCoreGalleryPage(), "ListView Gallery"),
@@ -378,6 +383,7 @@ namespace Xamarin.Forms.Controls
 				new GalleryPageFactory(() => new UnevenListGallery(), "UnevenList Gallery - Legacy"),
 				new GalleryPageFactory(() => new ViewCellGallery(), "ViewCell Gallery - Legacy"),
 				new GalleryPageFactory(() => new WebViewGallery(), "WebView Gallery - Legacy"),
+				new GalleryPageFactory(() => new BindableLayoutGalleryPage(), "BindableLayout Gallery - Legacy"),
 			};
 
 		public CorePageView(Page rootPage, NavigationBehavior navigationBehavior = NavigationBehavior.PushAsync)
@@ -490,6 +496,9 @@ namespace Xamarin.Forms.Controls
 
 				}
 			};
+
+			this.SetAutomationPropertiesName("Gallery");
+			this.SetAutomationPropertiesHelpText("Lists all gallery pages");
 
 			Content = new AbsoluteLayout
 			{
