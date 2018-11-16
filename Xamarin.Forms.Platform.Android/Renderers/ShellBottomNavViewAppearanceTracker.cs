@@ -35,17 +35,22 @@ namespace Xamarin.Forms.Platform.Android
 
 		public virtual void SetAppearance(BottomNavigationView bottomView, ShellAppearance appearance)
 		{
-			if (_defaultList == null)
-			{
-				_defaultList = bottomView.ItemTextColor;
-			}
-
 			IShellAppearanceController controller = appearance;
 			var background = controller.EffectiveTabBarBackgroundColor;
 			var foreground = controller.EffectiveTabBarForegroundColor;
 			var disabled = controller.EffectiveTabBarDisabledColor;
 			var unselected = controller.EffectiveTabBarUnselectedColor;
 			var title = controller.EffectiveTabBarTitleColor;
+
+
+			if (_defaultList == null)
+			{
+#if __ANDROID81__
+				_defaultList = bottomView.ItemTextColor;
+#else
+				_defaultList = bottomView.ItemTextColor ?? MakeColorStateList(title.ToAndroid().ToArgb(), disabled.ToAndroid().ToArgb(), unselected.ToAndroid().ToArgb());
+#endif
+			}
 
 			var colorStateList = MakeColorStateList(title, disabled, unselected);
 			bottomView.ItemTextColor = colorStateList;
@@ -105,7 +110,18 @@ namespace Xamarin.Forms.Platform.Android
 				_defaultList.GetColorForState(new int[0], AColor.Black) :
 				unselectedColor.ToAndroid().ToArgb();
 
-			var colors = new[] { disabledInt, checkedInt, defaultColor };
+			return MakeColorStateList(checkedInt, disabledInt, defaultColor);
+		}
+
+		private ColorStateList MakeColorStateList(int titleColorInt, int disabledColorInt, int defaultColor)
+		{
+			var states = new int[][] {
+				new int[] { -R.Attribute.StateEnabled },
+				new int[] {R.Attribute.StateChecked },
+				new int[] { }
+			};
+
+			var colors = new[] { disabledColorInt, titleColorInt, defaultColor };
 
 			return new ColorStateList(states, colors);
 		}
@@ -133,6 +149,6 @@ namespace Xamarin.Forms.Platform.Android
 			}
 		}
 
-		#endregion IDisposable
+#endregion IDisposable
 	}
 }
