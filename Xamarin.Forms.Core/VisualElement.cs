@@ -5,8 +5,8 @@ using Xamarin.Forms.Internals;
 
 namespace Xamarin.Forms
 {
-	public partial class VisualElement : NavigableElement, IAnimatable, IStyleElement, IVisualElementController, IResourcesProvider, IFlowDirectionController
-	{
+	public partial class VisualElement : NavigableElement, IAnimatable, IStyleElement, IVisualElementController, IResourcesProvider, IFlowDirectionController, IPropertyPropagationController, IVisualController
+    {
 		public static readonly BindableProperty InputTransparentProperty = BindableProperty.Create("InputTransparent", typeof(bool), typeof(VisualElement), default(bool));
 
 		public static readonly BindableProperty IsEnabledProperty = BindableProperty.Create("IsEnabled", typeof(bool),
@@ -51,6 +51,30 @@ namespace Xamarin.Forms
 		public static readonly BindableProperty ScaleYProperty = BindableProperty.Create(nameof(ScaleY), typeof(double), typeof(VisualElement), 1d);
 
 		internal static readonly BindableProperty TransformProperty = BindableProperty.Create("Transform", typeof(string), typeof(VisualElement), null, propertyChanged: OnTransformChanged);
+		
+		public static readonly BindableProperty VisualProperty =
+			BindableProperty.Create(nameof(Visual), typeof(IVisual), typeof(VisualElement), Forms.Visual.MatchParent,
+									validateValue: (b, v) => v != null, propertyChanged: OnVisualChanged);
+
+		public IVisual Visual
+		{
+			get { return (IVisual)GetValue(VisualProperty); }
+			set { SetValue(VisualProperty, value); }
+		}
+
+		IVisual _effectiveVisual = Xamarin.Forms.Visual.Default;
+		IVisual IVisualController.EffectiveVisual
+		{
+			get { return _effectiveVisual; }
+			set
+			{
+				if (value == _effectiveVisual)
+					return;
+
+				_effectiveVisual = value;
+				OnPropertyChanged(VisualProperty.PropertyName);
+			}
+		}
 
 		static void OnTransformChanged(BindableObject bindable, object oldValue, object newValue)
 		{
@@ -182,6 +206,7 @@ namespace Xamarin.Forms
 			((VisualElement)bindable).TabStopDefaultValueCreator();
 
 		IFlowDirectionController FlowController => this;
+		IPropertyPropagationController PropertyPropagationController => this;
 
 		public FlowDirection FlowDirection
 		{
@@ -748,8 +773,7 @@ namespace Xamarin.Forms
 		protected override void OnParentSet()
 		{
 			base.OnParentSet();
-
-			FlowController.NotifyFlowDirectionChanged();
+			PropertyPropagationController.PropagatePropertyChanged(null);
 		}
 
 		protected virtual void OnSizeAllocated(double width, double height)
@@ -904,6 +928,19 @@ namespace Xamarin.Forms
 			}
 		}
 
+		static void OnVisualChanged(BindableObject bindable, object oldValue, object newValue)
+		{
+			var self = bindable as IVisualController;
+			var newVisual = (IVisual)newValue;
+
+			if (newVisual.IsMatchParent())
+				self.EffectiveVisual = Xamarin.Forms.Visual.Default;
+			else
+				self.EffectiveVisual = (IVisual)newValue;
+
+			(self as IPropertyPropagationController)?.PropagatePropertyChanged(VisualElement.VisualProperty.PropertyName);
+		}
+
 		static void FlowDirectionChanged(BindableObject bindable, object oldValue, object newValue)
 		{
 			var self = bindable as IFlowDirectionController;
@@ -915,8 +952,9 @@ namespace Xamarin.Forms
 
 			self.EffectiveFlowDirection = newFlowDirection.ToEffectiveFlowDirection(isExplicit: true);
 
-			self.NotifyFlowDirectionChanged();
+			(self as IPropertyPropagationController)?.PropagatePropertyChanged(VisualElement.FlowDirectionProperty.PropertyName);
 		}
+
 
 		static void OnIsEnabledPropertyChanged(BindableObject bindable, object oldValue, object newValue)
 		{
@@ -980,14 +1018,19 @@ namespace Xamarin.Forms
 
 		bool IFlowDirectionController.ApplyEffectiveFlowDirectionToChildContainer => true;
 
-		void IFlowDirectionController.NotifyFlowDirectionChanged()
-		{
-			SetFlowDirectionFromParent(this);
 
-			for (int i = 0; i < LogicalChildren.Count; i++)
+		void IPropertyPropagationController.PropagatePropertyChanged(string propertyName)
+		{
+			if(propertyName == null || propertyName == VisualElement.FlowDirectionProperty.PropertyName)
+				SetFlowDirectionFromParent(this);
+
+			if (propertyName == null || propertyName == VisualElement.VisualProperty.PropertyName)
+				SetVisualfromParent(this);
+
+			foreach (var element in LogicalChildren)
 			{
-				if (LogicalChildren[i] is IFlowDirectionController view)
-					view.NotifyFlowDirectionChanged();
+				if (element is IPropertyPropagationController view)
+					view.PropagatePropertyChanged(propertyName);
 			}
 		}
 
@@ -1001,7 +1044,7 @@ namespace Xamarin.Forms
 
 			SizeAllocated(width, height);
 			SizeChanged?.Invoke(this, EventArgs.Empty);
-		}
+		}	
 
 		public class FocusRequestArgs : EventArgs
 		{

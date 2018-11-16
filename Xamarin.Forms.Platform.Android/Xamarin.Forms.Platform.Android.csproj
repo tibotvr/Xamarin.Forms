@@ -142,6 +142,10 @@
     <Compile Include="IBorderVisualElementRenderer.cs" />
     <Compile Include="IDeviceInfoProvider.cs" />
     <Compile Include="ITabStop.cs" />
+    <Compile Include="Material\MaterialFrameRenderer.cs" />
+    <Compile Include="Material\MaterialFormsEditText.cs" />
+    <Compile Include="Material\MaterialButtonRenderer.cs" />
+    <Compile Include="Material\MaterialEntryRenderer.cs" />
     <Compile Include="Renderers\FormsWebViewClient.cs" />
     <Compile Include="Renderers\IImageViewHandler.cs" />
     <Compile Include="InnerGestureListener.cs" />
