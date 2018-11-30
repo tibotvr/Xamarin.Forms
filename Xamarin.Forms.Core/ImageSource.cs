@@ -96,6 +96,8 @@ namespace Xamarin.Forms
 		{
 			if (!uri.IsAbsoluteUri)
 				throw new ArgumentException("uri is relative");
+			if (uri.Scheme == FontImageSource.Scheme)
+				return new FontImageSource { Uri = uri };
 			return new UriImageSource { Uri = uri };
 		}
 

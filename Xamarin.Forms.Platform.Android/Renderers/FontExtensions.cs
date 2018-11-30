@@ -45,6 +45,19 @@ namespace Xamarin.Forms.Platform.Android
 			return (float)self.FontSize;
 		}
 
+		public static Typeface ToTypeFace(this string fontfamily, FontAttributes attr = FontAttributes.None)
+		{
+			if (Regex.IsMatch(fontfamily, LoadFromAssetsRegex))
+			{
+				return Typeface.CreateFromAsset(AApplication.Context.Assets, FontNameToFontFile(fontfamily));
+			}
+			else
+			{
+				var style = ToTypefaceStyle(attr);
+				return Typeface.Create(fontfamily, style);
+			}
+		}
+
 		public static Typeface ToTypeface(this Font self)
 		{
 			if (self.IsDefault)
@@ -60,15 +73,11 @@ namespace Xamarin.Forms.Platform.Android
 				var style = ToTypefaceStyle(self.FontAttributes);
 				result = Typeface.Create(Typeface.Default, style);
 			}
-			else if (Regex.IsMatch(self.FontFamily, LoadFromAssetsRegex))
-			{
-				result = Typeface.CreateFromAsset(AApplication.Context.Assets, FontNameToFontFile(self.FontFamily));
-			}
 			else
 			{
-				var style = ToTypefaceStyle(self.FontAttributes);
-				result = Typeface.Create(self.FontFamily, style);
+				result = self.FontFamily.ToTypeFace(self.FontAttributes);
 			}
+
 			return (Typefaces[key] = result);
 		}
 
