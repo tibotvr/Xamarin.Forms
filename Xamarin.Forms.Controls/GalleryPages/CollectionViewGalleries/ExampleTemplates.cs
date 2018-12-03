@@ -9,7 +9,7 @@
 				var templateLayout = new Grid
 				{
 					RowDefinitions = new RowDefinitionCollection { new RowDefinition(), new RowDefinition() },
-					WidthRequest = 100,
+					WidthRequest = 200,
 					HeightRequest = 100
 				};
 
@@ -47,15 +47,16 @@
 				var templateLayout = new Grid
 				{
 					RowDefinitions = new RowDefinitionCollection { new RowDefinition(), new RowDefinition {Height = GridLength.Auto} },
-					WidthRequest = 200,
-					HeightRequest = 230
+					WidthRequest = 280,
+					HeightRequest = 310,
+					BackgroundColor = Color.Aquamarine
 				};
 
 				var image = new Image
 				{
 					Margin = new Thickness(5),
-					HeightRequest = 200,
-					WidthRequest = 200,
+					HeightRequest = 280,
+					WidthRequest = 280,
 					HorizontalOptions = LayoutOptions.Center,
 					VerticalOptions = LayoutOptions.Center,
 					Aspect = Aspect.AspectFit
