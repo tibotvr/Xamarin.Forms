@@ -24,6 +24,7 @@ namespace Xamarin.Forms.Platform.iOS
 
 		void CollectionChanged(object sender, NotifyCollectionChangedEventArgs args)
 		{
+			ShouldDetermineCellSize();
 			// TODO hartez 2018/07/31 16:02:50 Handle the rest of these cases (implementing selection will make them much easier to test)	
 			switch (args.Action)
 			{
@@ -42,7 +43,6 @@ namespace Xamarin.Forms.Platform.iOS
 				default:
 					throw new ArgumentOutOfRangeException();
 			}
-			ShouldDetermineCellSize();
 		}
 
 		static NSIndexPath[] CreateIndexesFrom(int startIndex, int count)

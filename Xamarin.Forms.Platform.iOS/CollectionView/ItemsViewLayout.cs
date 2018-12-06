@@ -26,7 +26,6 @@ namespace Xamarin.Forms.Platform.iOS
 				: UICollectionViewScrollDirection.Vertical;
 
 			Initialize(scrollDirection);
-			EstimatedItemSize = ItemSize;
 		}
 
 		protected override void Dispose(bool disposing)
@@ -58,6 +57,8 @@ namespace Xamarin.Forms.Platform.iOS
 		{
 			// Nothing to do here for now; may need something here when we implement Snapping
 		}
+
+		internal bool IsDeterminingCellSize => _determiningCellSize;
 
 		public nfloat ConstrainedDimension { get; set; }
 
@@ -156,7 +157,10 @@ namespace Xamarin.Forms.Platform.iOS
 			{
 				EstimatedItemSize = measure;
 			}
+		}
 
+		internal void FinishDetermineCellSize()
+		{
 			_determiningCellSize = false;
 		}
 
