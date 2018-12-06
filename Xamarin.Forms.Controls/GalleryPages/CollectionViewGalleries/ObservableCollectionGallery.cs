@@ -30,7 +30,10 @@
 							new ObservableCodeCollectionViewGallery(empty: true), Navigation),
 
 						GalleryBuilder.NavButton("Add Items start Empty Collection (list)", () =>
-							new ObservableCodeCollectionViewGallery(grid: false, empty: true), Navigation)
+							new ObservableCodeCollectionViewGallery(grid: false, empty: true), Navigation),
+
+						GalleryBuilder.NavButton("Add Items with timer to Empty Collection", () =>
+							new ObservableCodeCollectionViewGallery(grid: false, empty: true, addItemsWithTimer: true), Navigation)
 					}
 				}
 			};

@@ -3,10 +3,10 @@
 	internal class ObservableCodeCollectionViewGallery : ContentPage
 	{
 		public ObservableCodeCollectionViewGallery(ItemsLayoutOrientation orientation = ItemsLayoutOrientation.Vertical,
-			bool grid = true, bool empty = false)
+			bool grid = true, bool empty = false, bool addItemsWithTimer = false)
 		{
 			var layout = new Grid
-			{ 
+			{
 				RowDefinitions = new RowDefinitionCollection
 				{
 					new RowDefinition { Height = GridLength.Auto },
@@ -19,16 +19,16 @@
 				}
 			};
 
-			IItemsLayout itemsLayout = grid 
-				? new GridItemsLayout(3, orientation) 
+			IItemsLayout itemsLayout = grid
+				? new GridItemsLayout(3, orientation)
 				: new ListItemsLayout(orientation) as IItemsLayout;
 
 			var itemTemplate = ExampleTemplates.PhotoTemplate();
 
-			var collectionView = new CollectionView {ItemsLayout = itemsLayout, ItemTemplate = itemTemplate};
+			var collectionView = new CollectionView { ItemsLayout = itemsLayout, ItemTemplate = itemTemplate };
 
 			var generator = new ItemsSourceGenerator(collectionView, empty ? 0 : 1000);
-			
+
 			var remover = new ItemRemover(collectionView);
 			var inserter = new ItemInserter(collectionView);
 			var replacer = new ItemReplacer(collectionView);
@@ -56,8 +56,10 @@
 			Grid.SetRow(collectionView, 6);
 
 			Content = layout;
-
-			generator.GenerateObservableCollection();
+			if (addItemsWithTimer)
+				generator.GenerateEmptyObservableCollectionAndAddItemsEverySecond();
+			else
+				generator.GenerateObservableCollection();
 		}
 	}
 }
