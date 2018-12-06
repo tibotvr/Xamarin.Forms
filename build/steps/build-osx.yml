@@ -15,7 +15,7 @@ steps:
     condition: eq(variables['provisioningSign'], 'true')
 
 
-  - bash: '$(Build.Repository.LocalPath)/Xamarin.Forms.Build/provisionator.sh $(Build.Repository.LocalPath)/build/provisioning/provisioning_sign.csx -v'
+  - bash: '$(Build.Repository.LocalPath)/Xamarin.Forms.Build/provisionator.sh $(Build.Repository.LocalPath)/Xamarin.Forms.Build/provisioning_sign.csx -v'
     displayName: Provisioning
     condition: eq(variables['provisioningSign'], 'true')
     env:
