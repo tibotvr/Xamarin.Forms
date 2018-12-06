@@ -4,6 +4,7 @@ using Android.Content;
 using Android.Support.V7.Widget;
 using Android.Views;
 using Android.Widget;
+using Java.Lang;
 using AView = Android.Views.View;
 using ViewGroup = Android.Views.ViewGroup;
 
@@ -16,9 +17,10 @@ namespace Xamarin.Forms.Platform.Android
 	public class ItemsViewAdapter : RecyclerView.Adapter
 	{
 		protected readonly ItemsView ItemsView;
-		readonly Context _context;
-		readonly Func<IVisualElementRenderer, Context, AView> _createView;
-		readonly IItemsViewSource _itemsSource;
+		Context _context;
+		Func<IVisualElementRenderer, Context, AView> _createView;
+		IItemsViewSource _itemsSource;
+		bool _disposed;
 
 		internal ItemsViewAdapter(ItemsView itemsView, Context context, 
 			Func<IVisualElementRenderer, Context, AView> createView = null)
@@ -67,6 +69,23 @@ namespace Xamarin.Forms.Platform.Android
 			var itemContentControl = _createView(CreateRenderer(templateElement, context), context);
 
 			return new TemplatedItemViewHolder(itemContentControl, templateElement);
+		}
+
+		protected override void Dispose(bool disposing)
+		{
+			if (!_disposed)
+			{
+				if (disposing)
+				{
+					_itemsSource?.Dispose();
+					_itemsSource = null;
+					_createView = null;
+					_context = null;
+				}
+
+				_disposed = true;
+			}
+			base.Dispose(disposing);
 		}
 
 		IVisualElementRenderer CreateRenderer(View view, Context context)
