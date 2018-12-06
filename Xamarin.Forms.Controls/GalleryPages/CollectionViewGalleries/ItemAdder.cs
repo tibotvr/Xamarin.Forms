@@ -5,19 +5,14 @@ namespace Xamarin.Forms.Controls.GalleryPages.CollectionViewGalleries
 {
 	internal class ItemAdder : CollectionModifier 
 	{
-		public ItemAdder(CollectionView cv) : base(cv, "Insert")
+		public ItemAdder(CollectionView cv) : base(cv, "Adder")
 		{
 		}
 
 		protected override void ModifyCollection(ObservableCollection<CollectionViewGalleryTestItem> observableCollection, params int[] indexes)
 		{
-			var index = indexes[0];
-
-			if (index > -1 && index < observableCollection.Count)
-			{
-				var item = new CollectionViewGalleryTestItem(DateTime.Now, "Inserted", "oasis.jpg", index);
-				observableCollection.Insert(index, item);
-			}
+			var item = new CollectionViewGalleryTestItem(DateTime.Now, "Added", "oasis.jpg", observableCollection.Count +1);
+			observableCollection.Add(item);
 		}
 	}
 }

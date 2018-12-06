@@ -24,7 +24,13 @@
 							new ObservableCodeCollectionViewGallery(grid: false), Navigation),
 
 						GalleryBuilder.NavButton("Add/Remove Items (grid)", () =>
-							new ObservableCodeCollectionViewGallery(), Navigation)
+							new ObservableCodeCollectionViewGallery(), Navigation),
+
+						GalleryBuilder.NavButton("Add Items start Empty Collection (grid)", () =>
+							new ObservableCodeCollectionViewGallery(empty: true), Navigation),
+
+						GalleryBuilder.NavButton("Add Items start Empty Collection (list)", () =>
+							new ObservableCodeCollectionViewGallery(grid: false, empty: true), Navigation)
 					}
 				}
 			};
