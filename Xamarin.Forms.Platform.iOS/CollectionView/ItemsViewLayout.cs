@@ -120,9 +120,14 @@ namespace Xamarin.Forms.Platform.iOS
 			return shouldInvalidate;
 		}
 
-		protected void DetermineCellSize()
+		internal protected void DetermineCellSize()
 		{
 			if (GetPrototype == null)
+			{
+				return;
+			}
+
+			if (!(GetPrototype() is ItemsViewCell prototype))
 			{
 				return;
 			}
@@ -133,11 +138,6 @@ namespace Xamarin.Forms.Platform.iOS
 			{
 				// iOS 9 will throw an exception during auto layout if no EstimatedSize is set
 				EstimatedItemSize = new CGSize(1, 1);
-			}
-
-			if (!(GetPrototype() is ItemsViewCell prototype))
-			{
-				return;
 			}
 
 			prototype.ConstrainTo(ConstrainedDimension);

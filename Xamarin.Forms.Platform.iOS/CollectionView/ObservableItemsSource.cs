@@ -10,6 +10,8 @@ namespace Xamarin.Forms.Platform.iOS
 	{
 		readonly UICollectionView _collectionView;
 		readonly IList _itemsSource;
+		bool _isEmpty;
+
 
 		public ObservableItemsSource(IEnumerable itemSource, UICollectionView collectionView)
 		{
@@ -17,6 +19,7 @@ namespace Xamarin.Forms.Platform.iOS
 			_itemsSource = (IList)itemSource;
 
 			((INotifyCollectionChanged)itemSource).CollectionChanged += CollectionChanged;
+			_isEmpty = !_itemsSource.GetEnumerator().MoveNext();
 		}
 
 		void CollectionChanged(object sender, NotifyCollectionChangedEventArgs args)
@@ -39,6 +42,7 @@ namespace Xamarin.Forms.Platform.iOS
 				default:
 					throw new ArgumentOutOfRangeException();
 			}
+			ShouldDetermineCellSize();
 		}
 
 		static NSIndexPath[] CreateIndexesFrom(int startIndex, int count)
@@ -67,6 +71,16 @@ namespace Xamarin.Forms.Platform.iOS
 			var count = args.OldItems.Count;
 
 			_collectionView.DeleteItems(CreateIndexesFrom(startIndex, count));
+		}
+
+		void ShouldDetermineCellSize()
+		{
+			var isNowEmpty = !_itemsSource.GetEnumerator().MoveNext();
+			if (_isEmpty != isNowEmpty)
+			{
+				(_collectionView.CollectionViewLayout as ItemsViewLayout)?.DetermineCellSize();
+				_isEmpty = isNowEmpty;
+			}
 		}
 
 		public int Count => _itemsSource.Count;
