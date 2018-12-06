@@ -43,11 +43,16 @@ namespace Xamarin.Forms.Platform.iOS
 		public override nint GetItemsCount(UICollectionView collectionView, nint section)
 		{
 			var count = _itemsSource.Count;
+
+			//There is  case we are adding our 1st cell and our collection was intially empty.
+			//This method is being called by setting the EstimatedItemSize using our prototype.
+			//Returnig 1 before the cell was added will throw an exception so we handle
+			//that edge case here.
 			if (_layout.IsDeterminingCellSize && count == 1)
-			{
-				_layout.FinishedDeterminingCellSize();
-				return 0;
-			}
+				count =  0;
+
+			if (_layout.IsDeterminingCellSize)
+				_layout.FinishDetermineCellSize();
 
 			return count;
 		}
