@@ -26,6 +26,7 @@ namespace Xamarin.Forms.Platform.iOS
 				: UICollectionViewScrollDirection.Vertical;
 
 			Initialize(scrollDirection);
+			EstimatedItemSize = ItemSize;
 		}
 
 		protected override void Dispose(bool disposing)
