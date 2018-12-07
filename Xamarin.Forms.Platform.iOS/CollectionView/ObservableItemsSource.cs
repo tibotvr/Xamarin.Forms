@@ -13,10 +13,10 @@ namespace Xamarin.Forms.Platform.iOS
 		bool _isEmpty;
 
 
-		public ObservableItemsSource(IEnumerable itemSource, UICollectionView collectionView)
+		public ObservableItemsSource(IList itemSource, UICollectionView collectionView)
 		{
 			_collectionView = collectionView;
-			_itemsSource = (IList)itemSource;
+			_itemsSource = itemSource;
 
 			((INotifyCollectionChanged)itemSource).CollectionChanged += CollectionChanged;
 			_isEmpty = !_itemsSource.GetEnumerator().MoveNext();
