@@ -19,7 +19,7 @@ namespace Xamarin.Forms.Platform.iOS
 			_itemsSource = itemSource;
 
 			((INotifyCollectionChanged)itemSource).CollectionChanged += CollectionChanged;
-			_isEmpty = !_itemsSource.GetEnumerator().MoveNext();
+			_isEmpty = _itemsSource.Count == 0;
 		}
 
 		void CollectionChanged(object sender, NotifyCollectionChangedEventArgs args)
@@ -75,7 +75,7 @@ namespace Xamarin.Forms.Platform.iOS
 
 		void ShouldDetermineCellSize()
 		{
-			var isNowEmpty = !_itemsSource.GetEnumerator().MoveNext();
+			var isNowEmpty = _itemsSource.Count == 0;
 			if (_isEmpty != isNowEmpty)
 			{
 				(_collectionView.CollectionViewLayout as ItemsViewLayout)?.DetermineCellSize();
